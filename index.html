@@ -232,18 +232,18 @@
         </div>
     </footer>
     <script>
-        // 初始化 GSAP 和必要的插件
+        // Initialize GSAP and required plugins
         gsap.registerPlugin(ScrollTrigger);
 
-        // 等待 DOM 加载完成
+        // Wait for DOM to be fully loaded
         document.addEventListener('DOMContentLoaded', () => {
-            // 初始化文本分割
+            // Initialize text splitting
             const typeSplit = new SplitType("[text-split]", {
                 types: "words, chars",
                 tagName: "span"
             });
 
-            // 初始化平滑滚动
+            // Initialize smooth scrolling
             const lenis = new Lenis({
                 duration: 1.2,
                 easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -254,50 +254,50 @@
                 touchMultiplier: 2
             });
 
-            // Lenis RAF循环
+            // Lenis RAF loop
             function raf(time) {
                 lenis.raf(time);
                 requestAnimationFrame(raf);
             }
             requestAnimationFrame(raf);
 
-            // 连接 Lenis 和 ScrollTrigger
+            // Connect Lenis and ScrollTrigger
             lenis.on('scroll', ScrollTrigger.update);
 
-            // 文字动画效果 - 设置初始透明度为0.2
+            // Text animation effect - Set initial opacity to 0.2
             gsap.set("[text-split]", { opacity: 0.2 });
             
-            // 为每个带有 scrub-each-word 属性的元素创建动画
+            // Create animations for each element with scrub-each-word attribute
             document.querySelectorAll("[scrub-each-word]").forEach(element => {
                 let words = element.querySelectorAll(".word");
                 
                 gsap.to(words, {
                     scrollTrigger: {
                         trigger: element,
-                        start: "top 95%", // 提前开始动画
-                        end: "top 60%",   // 缩短动画区间
-                        scrub: 0.5,       // 减少scrub时间
+                        start: "top 95%", // Start animation earlier
+                        end: "top 60%",   // Shorten animation range
+                        scrub: 0.5,       // Reduce scrub time
                         markers: false
                     },
                     opacity: 1,
-                    stagger: 0.05,        // 减少单词间的延迟
+                    stagger: 0.05,        // Reduce delay between words
                     ease: "power1.out",
-                    duration: 0.5         // 减少动画时长
+                    duration: 0.5         // Reduce animation duration
                 });
             });
 
-            // 在页面加载完成后处理预加载器和入场动画
+            // Handle preloader and entrance animations after page load
             window.addEventListener('load', () => {
-                // 隐藏预加载器
+                // Hide preloader
                 document.querySelector('.preloader').classList.add('hidden');
                 
-                // 触发所有fade-in元素的动画
+                // Trigger animations for all fade-in elements
                 document.querySelectorAll('.fade-in').forEach(element => {
                     element.style.opacity = '1';
                 });
             });
 
-            // 平滑滚动锚点链接
+            // Smooth scroll for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -313,7 +313,7 @@
                 });
             });
 
-            // 导航高亮
+            // Navigation highlight
             const sections = document.querySelectorAll('section, main.hero-section');
             const navLinks = document.querySelectorAll('.nav-links a');
 
@@ -337,9 +337,9 @@
             }
 
             window.addEventListener('scroll', updateActiveLink);
-            updateActiveLink(); // 初始化时执行一次
+            updateActiveLink(); // Initialize on load
 
-            // 自定义鼠标效果
+            // Custom cursor effects
             const cursorDot = document.querySelector('.cursor-dot');
             const cursorOutline = document.querySelector('.cursor-outline');
 
@@ -356,7 +356,7 @@
                 }, { duration: 500, fill: "forwards" });
             });
 
-            // 鼠标进入/离开视口
+            // Mouse enter/leave viewport
             document.addEventListener('mouseenter', () => {
                 cursorDot.classList.add('active');
                 cursorOutline.classList.add('active');
@@ -367,7 +367,7 @@
                 cursorOutline.classList.remove('active');
             });
 
-            // 可点击元素的鼠标效果
+            // Cursor effects for clickable elements
             document.querySelectorAll('a, button').forEach(el => {
                 el.addEventListener('mouseover', () => {
                     cursorDot.classList.add('hover');
